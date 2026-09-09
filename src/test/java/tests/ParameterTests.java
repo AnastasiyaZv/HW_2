@@ -11,7 +11,7 @@ import java.util.List;
 
 import static ru.stepup.Metods.*;
 
-public class ParameterTest {
+public class ParameterTests {
     @BeforeEach
     void printLineStart() {
         System.out.println("========================");
@@ -69,6 +69,7 @@ public class ParameterTest {
     void getEvenInRangeTest(int start, int end, String expected) {
         System.out.println(getEvenInRange(start, end).equals(expected) ? "TEST PASSED" : "TEST FAILED");
     }
+
     @ParameterizedTest
     @CsvFileSource(
             resources = "/dataRemoveSpecificNameTest.csv",

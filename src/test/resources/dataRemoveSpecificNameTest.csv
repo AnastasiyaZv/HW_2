@@ -1,0 +1,5 @@
+inputList;word;expectedList
+strawberry,nectarine,orange,kiwi,cherry;kiwi;strawberry,nectarine,orange,cherry
+strawberry,cherry,nectarine,orange,kiwi,cherry;cherry;strawberry,nectarine,orange,kiwi,cherry
+null;orange;null
+strawberry,cherry,nectarine,orange,kiwi,cherry;;strawberry,cherry,nectarine,orange,kiwi,cherry
