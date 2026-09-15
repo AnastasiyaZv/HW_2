@@ -1,18 +1,17 @@
 package tests;
 
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvFileSource;
-import org.junit.jupiter.params.provider.MethodSource;
+import org.junit.jupiter.params.provider.CsvSource;
 
 import java.util.Arrays;
 import java.util.List;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static ru.stepup.Metods.*;
-import static org.assertj.core.api.Assertions.*;
 
 @Tag("Parameter")
 public class ParameterTests {
@@ -28,31 +27,28 @@ public class ParameterTests {
         System.out.println("========================");
     }
 
-    @ParameterizedTest
-    @MethodSource("data.RandomData#randomList")
-    void getGradeTest(int[] array) {
-        int score = array[0];
-        boolean passed = false;
-        switch (score) {
-            case 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20 ->
-                    passed = getGrade(score).equals("E");
-
-            case 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40 ->
-                    passed = getGrade(score).equals("D");
-
-            case 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60 ->
-                    passed = getGrade(score).equals("C");
-
-            case 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80 ->
-                    passed = getGrade(score).equals("B");
-
-            case 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 96, 97, 98, 99, 100 ->
-                    passed = getGrade(score).equals("A");
-
-            default -> passed = getGrade(score).equals("Error");
-        }
-
-        System.out.println(passed ? "TEST PASSED" : "TEST FAILED");
+    @ParameterizedTest(name = "score={0} -> grade={1}")
+    @CsvSource({
+            "0,   E",
+            "10,  E",
+            "20,  E",
+            "21,  D",
+            "40,  D",
+            "41,  C",
+            "60,  C",
+            "61,  B",
+            "80,  B",
+            "81,  A",
+            "100, A",
+            "-10, Error"
+    })
+    void getGradeTest(int score, String expected) {
+        String actual = getGrade(score);
+        assertThat(actual)
+                .as(String.format("Число %d не соответствует диапазону %s. " + "\n" +
+                                "Фактический результат: %s не соответствует ожидаемому: %s",
+                        score, expected, actual, expected))
+                .isEqualTo(expected);
     }
 
     @ParameterizedTest
@@ -79,8 +75,8 @@ public class ParameterTests {
 
         assertThat(actual)
                 .as(String.format("Проверяемый диапазон: [%d, %d]" + "\n" +
-                        "Фактический результат: %s не соответствует ожидаемому результату: %s.",
-                start, end, actual, expected))
+                                "Фактический результат: %s не соответствует ожидаемому результату: %s.",
+                        start, end, actual, expected))
                 .isEqualTo(expected);
     }
 

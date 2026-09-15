@@ -41,8 +41,8 @@ public class RepeatTests {
 
         assertThat(actual)
                 .as(String.format("Проверяемое число %d. " + "\n" +
-                        "Фактический результат: %s не соответствует ожидаемому результату: %s.",
-                num, actual, expected))
+                                "Фактический результат: %s не соответствует ожидаемому результату: %s.",
+                        num, actual, expected))
                 .isEqualTo(expected);
 
     }
