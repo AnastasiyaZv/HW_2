@@ -1,7 +1,9 @@
 package tests;
 
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvFileSource;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -10,7 +12,9 @@ import java.util.Arrays;
 import java.util.List;
 
 import static ru.stepup.Metods.*;
+import static org.assertj.core.api.Assertions.*;
 
+@Tag("Parameter")
 public class ParameterTests {
     @BeforeEach
     void printLineStart() {
@@ -58,7 +62,11 @@ public class ParameterTests {
     )
     void isPositiveTest(int n, boolean expected) {
         boolean actual = isPositive(n);
-        System.out.println(expected == actual ? "TEST PASSED" : "TEST FAILED");
+
+        assertThat(actual)
+                .as(String.format("Фактический результат: %s не соответствует ожидаемому результату: %s.",
+                        actual, expected))
+                .isEqualTo(expected);
     }
 
     @ParameterizedTest
@@ -67,7 +75,13 @@ public class ParameterTests {
             numLinesToSkip = 1
     )
     void getEvenInRangeTest(int start, int end, String expected) {
-        System.out.println(getEvenInRange(start, end).equals(expected) ? "TEST PASSED" : "TEST FAILED");
+        String actual = getEvenInRange(start, end);
+
+        assertThat(actual)
+                .as(String.format("Проверяемый диапазон: [%d, %d]" + "\n" +
+                        "Фактический результат: %s не соответствует ожидаемому результату: %s.",
+                start, end, actual, expected))
+                .isEqualTo(expected);
     }
 
     @ParameterizedTest
@@ -79,9 +93,12 @@ public class ParameterTests {
     void removeSpecificNameTest(String inputList, String word, String expectedList) {
 
         List<String> list = Arrays.asList(inputList.split(","));
-        List<String> listExpected = Arrays.asList(expectedList.split(","));
-        List<String> listActual = removeSpecificName(list, word);
+        List<String> actualList = removeSpecificName(list, word);
 
-        System.out.println(listExpected.equals(listActual) ? "TEST PASSED" : "TEST FAILED");
+        assertThat(actualList)
+                .as(String.format("Список %s содержит слово %s.",
+                        actualList, word))
+                .isNotEmpty()
+                .doesNotContain(word);
     }
 }

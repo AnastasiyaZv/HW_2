@@ -3,6 +3,7 @@ package tests;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.RepeatedTest;
+import org.junit.jupiter.api.Tag;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -11,8 +12,10 @@ import java.util.List;
 
 import static data.RandomData.randomArrayString;
 import static data.RandomData.randomInt;
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static ru.stepup.Metods.*;
 
+@Tag("Repeat")
 public class RepeatTests {
     @BeforeEach
     void printLineStart() {
@@ -26,17 +29,25 @@ public class RepeatTests {
         System.out.println("========================");
     }
 
-    @RepeatedTest(5)
+    @RepeatedTest(10)
     void checkAccessTest() {
         int num = randomInt(0, 100);
-        if ((num > 18 && checkAccess(num).equals("Allowed")) || (num < 18 && checkAccess(num).equals("Denied"))) {
-            System.out.println("TEST PASSED");
-        } else {
-            System.out.println("TEST FAILED");
-        }
+        String expected = "";
+        String actual = checkAccess(num);
+
+        if (num > 18) {
+            expected = "Allowed";
+        } else expected = "Denied1";
+
+        assertThat(actual)
+                .as(String.format("Проверяемое число %d. " + "\n" +
+                        "Фактический результат: %s не соответствует ожидаемому результату: %s.",
+                num, actual, expected))
+                .isEqualTo(expected);
+
     }
 
-    @RepeatedTest(3)
+    @RepeatedTest(10)
     void sumToNTest() {
         int num = randomInt(0, 100);
         int actual = sumToN(num);
@@ -44,27 +55,40 @@ public class RepeatTests {
         for (int i = 0; i < num; i++) {
             expected = expected + i;
         }
-        System.out.println(actual == expected ? "TEST PASSED" : "TEST FAILED");
+
+        assertThat(actual)
+                .as(String.format("Сумма не верная. " + "\n" +
+                                "Фактический результат: %d не соответствует ожидаемому результату: %d.",
+                        actual, expected))
+                .isEqualTo(expected);
+
     }
 
-    @RepeatedTest(7)
+    @RepeatedTest(10)
     void hasBugTest() {
         String[] array = randomArrayString(10);
-
+        String findWord = "Bug";
         boolean actual = hasBug(array);
-        boolean expected = Arrays.asList(array).contains("Bug");
+        boolean expected = Arrays.asList(array).contains(findWord);
 
-        System.out.println(actual == expected ? "TEST PASSED" : "TEST FAILED");
+        assertThat(actual)
+                .as(String.format("Проверяемый массив: %s." + "\n" + "Искомое значение: %s" + "\n" +
+                                "Фактический результат: %s не соответствует ожидаемому результату: %s.",
+                        Arrays.toString(array), findWord, actual, expected))
+                .isEqualTo(expected);
     }
 
-    @RepeatedTest(3)
+    @RepeatedTest(10)
     void reverseTest() {
         String[] array = randomArrayString(10);
+        String[] actualArr = reverse(array);
 
         List<String> list = new ArrayList<>(Arrays.asList(array));
         Collections.reverse(list);
-        String[] reversArr = list.toArray(new String[0]);
+        String[] expectedArr = list.toArray(new String[0]);
 
-        System.out.println(Arrays.equals(reverse(array), reversArr) ? "TEST PASSED" : "TEST FAILED");
+        assertThat(actualArr)
+                .as("Фактический результат не соответствует ожидаемому результату.")
+                .containsExactly(expectedArr);
     }
 }

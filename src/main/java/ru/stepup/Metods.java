@@ -73,7 +73,7 @@ public class Metods {
     //этого промежутка (включая границы), разделённых пробелом.
     //Перед первым и после последнего числа пробел не ставится. Например: (2, 5) -> “2 4”
     public static String getEvenInRange(int start, int end) {
-        String res = "пустая строка";
+        String res = "";
         if (start > end) return "начало диапазона больше его конца";
         for (int i = start; i < end + 1; i++) {
             if (i % 2 == 0)

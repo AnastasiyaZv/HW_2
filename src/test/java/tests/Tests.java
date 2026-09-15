@@ -2,6 +2,7 @@ package tests;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -10,8 +11,10 @@ import java.util.List;
 
 import static data.RandomData.randomArrayInt;
 import static data.RandomData.randomInt;
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static ru.stepup.Metods.*;
 
+@Tag("Smoke")
 public class Tests {
     @BeforeEach
     void printLineStart() {
@@ -28,24 +31,32 @@ public class Tests {
     @Test
     void isEventTest() {
         int num = randomInt(0, 100);
-        System.out.println(num);
-        boolean expected = (num % 2 == 0);
-        System.out.println("expected = " + expected);
+        boolean expected = (num % 2 == 1);
         boolean actual = isEven(num);
-        System.out.println("actual = " + actual);
-        System.out.println(expected == actual ? "TEST PASSED" : "TEST FAILED");
+        assertThat(actual)
+                .as(String.format("Проверяемое значение: %d. " +
+                                "Фактический результат: %s не соответствует ожидаемому результату: %s.",
+                        num, actual, expected))
+                .isEqualTo(expected);
     }
+
 
     @Test
     void blastOffTest() {
         int num = randomInt(0, 10);
-        System.out.println("num = " + num);
+        String actual = blastOff(num);
+
         String res = "";
         for (int i = num; i > 0; i--) {
             res = res + i + " ";
         }
         String expected = res + "Поехали!";
-        System.out.println(blastOff(num).equals(expected) ? "TEST PASSED" : "TEST FAILED");
+
+        assertThat(actual)
+                .as(String.format("Проверяемое значение: %d. " +
+                                "Фактический результат: %s не соответствует ожидаемому результату: %s.",
+                        num, actual, expected))
+                .isEqualTo(expected);
     }
 
     @Test
@@ -53,10 +64,15 @@ public class Tests {
         int[] array = randomArrayInt(10);
         int[] sorted = array.clone();
 
+        int actual = findMax(array);
         Arrays.sort(sorted);
-        int maxExpected = sorted[sorted.length - 1];
+        int expected = sorted[sorted.length - 1];
 
-        System.out.println(findMax(array) == maxExpected ? "TEST PASSED" : "TEST FAILED");
+        assertThat(actual)
+                .as(String.format("Проверяемый массив %s. " +
+                                "Фактическое максимальное значение: %d не соответствует ожидаемому результату: %d.",
+                        Arrays.toString(array), actual, expected))
+                .isEqualTo(expected);
     }
 
     @Test
@@ -73,6 +89,12 @@ public class Tests {
             sum += elem;
         }
 
-        System.out.println((sum / list.size() == calcAverage(list)) ? "TEST PASSED" : "TEST FAILED");
+        int actual = calcAverage(list);
+        int expected = sum / list.size();
+
+        assertThat(actual)
+                .as(String.format("Фактическое максимальное значение: %d не соответствует ожидаемому результату: %d.",
+                        actual, expected))
+                .isEqualTo(expected);
     }
 }

@@ -24,7 +24,10 @@ tasks.test {
 tasks.register<Test>("firstTask") {
     group = "autotests"
     description = "Запуск всех тестов"
-    useJUnitPlatform()
+    useJUnitPlatform{
+        includeTags("Parameter","Repeat")
+    }
+
     testLogging {
         events("passed", "skipped", "failed")
         showStandardStreams = true
