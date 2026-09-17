@@ -23,7 +23,7 @@ tasks.test {
 
 tasks.register<Test>("firstTask") {
     group = "autotests"
-    description = "Запуск всех тестов"
+    description = "Запуск тестов с тегами: Parameter, Repeat"
     useJUnitPlatform{
         includeTags("Parameter","Repeat")
     }
@@ -36,7 +36,10 @@ tasks.register<Test>("firstTask") {
 
 tasks.register<Test>("secondTask") {
     group = "autotests"
-    description = "Выводит сообщение после завершения всех тестов"
+    description = "Запускает тесты с тегом Smoke. Выводит сообщение после завершения всех тестов"
+    useJUnitPlatform{
+        includeTags("Smoke")
+    }
     dependsOn("firstTask")
     doLast {
         println("Test run is over")

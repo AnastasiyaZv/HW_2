@@ -37,7 +37,7 @@ public class RepeatTests {
 
         if (num > 18) {
             expected = "Allowed";
-        } else expected = "Denied1";
+        } else expected = "Denied";
 
         assertThat(actual)
                 .as(String.format("Проверяемое число %d. " + "\n" +

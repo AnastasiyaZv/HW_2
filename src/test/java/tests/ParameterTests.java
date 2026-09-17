@@ -60,8 +60,9 @@ public class ParameterTests {
         boolean actual = isPositive(n);
 
         assertThat(actual)
-                .as(String.format("Фактический результат: %s не соответствует ожидаемому результату: %s.",
-                        actual, expected))
+                .as(String.format("Получено число: %d"+"\n"+
+                                "Фактический результат: %s не соответствует ожидаемому результату: %s.",
+                        n, actual, expected))
                 .isEqualTo(expected);
     }
 
@@ -86,13 +87,13 @@ public class ParameterTests {
             delimiter = ';',
             numLinesToSkip = 1
     )
-    void removeSpecificNameTest(String inputList, String word, String expectedList) {
+    void removeSpecificNameTest(String inputList, String word) {
 
         List<String> list = Arrays.asList(inputList.split(","));
         List<String> actualList = removeSpecificName(list, word);
 
         assertThat(actualList)
-                .as(String.format("Список %s содержит слово %s.",
+                .as(String.format("Список %s не должен содержать слово %s.",
                         actualList, word))
                 .isNotEmpty()
                 .doesNotContain(word);

@@ -18,7 +18,7 @@ public class Metods {
     // и false, если переданное число меньше нуля.
     // Проверка внутри метода должна происходить с помощью тернарного оператора.
     public static boolean isPositive(int n) {
-        boolean res = n >= 0;
+        boolean res = (n >= 0);
         return res;
     }
 
@@ -110,7 +110,7 @@ public class Metods {
         for (int i = 0; i < list.size(); i++) {
             sum = sum + list.get(i);
         }
-        return sum / list.size();
+        return sum; //sum / list.size();
     }
 
     //Задача 12: метод принимает список и имя, которое нужно исключить.

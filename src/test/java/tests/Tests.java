@@ -31,7 +31,7 @@ public class Tests {
     @Test
     void isEventTest() {
         int num = randomInt(0, 100);
-        boolean expected = (num % 2 == 1);
+        boolean expected = (num % 2 == 0);
         boolean actual = isEven(num);
         assertThat(actual)
                 .as(String.format("Проверяемое значение: %d. " +
